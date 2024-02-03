@@ -16,20 +16,39 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            background-color: gray;
+            background-color: rgb(190, 188, 188);
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
             padding: 20px;
             width: 300px;
+            overflow-y: scroll; /* Add this line to make the container scrollable */
         }
 
         .register-button {
             margin-left: 100px;
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" data-spy="scroll" data-target="#navbar-example" data-offset="0">
         <h1>Registration</h1>
         <form>
             <label for="username">Username:</label>
@@ -40,7 +59,6 @@
             
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
-            
             
             <input type="submit" value="Register" class="register-button">
         </form>
