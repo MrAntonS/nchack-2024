@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-    <!--
-      Testing
-      -->
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Test</title>
-    </head>
-    
-    <body style="background-color:#FF0000">
-    
-    <!-- Header for About me page -->
+<html lang="en">
+<head>
 
-    <h2>Header 2</h2>
-    <hr>
-    
-    
-    <!-- A paragraph about myself -->
-    <p>Text
-    </p>
-    <br/ >
-    <br/ >
-    
+    <!-- tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title>BloodLink</title>
+</head>
+
+    <!-- Start of HTML stuff -->
+    <body>
+        
+        <!-- Overall container -->
+        <div id="Container">
+            
+            <!-- Left side -->
+            <div id="Left side">
+                <!-- Top row: blood types needed, amount of blood needed, distance from me -->
+                <!-- TODO: add a container for the filter -->
+                <div class="Options">
+                    <div class="column">Blood type(s) needed</div>
+                    <div class="column">Amount of Blood Needed</div>
+                    <div class="column">Distance From Me</div>
+                </div>
+                
+                <!-- Scroll through people -->
+                <div class="Donors">
+                    <!-- TODO: how do you scroll through like 20 people at a time -->
+                </div>
+            </div>
+            
+            <!-- Right side -->
+            <div id="Right side">
+                
+                <!-- Varying Rows -->
+                <div class="varying-row">Amount of blood to donate</div>
+                <div class="varying-row">Rating</div>
+                    <!-- TODO: should be container for rating and profile -->
+                <div class="varying-row">Location</div>
+                    <!-- TODO: should be container for location and blood type symbol -->
+                <div class="varying-row">Long Medical History</div>
+                <div class="varying-row">Short Medical History</div>
+                <div class="varying-row">Buttons</div>
+            </div>
+        </div>
     </body>
-    
 </html>
