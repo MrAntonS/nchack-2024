@@ -20,6 +20,17 @@ def create_data_entry(username, password, email, blood_type, age, weight, locati
     conn.commit()
     conn.close()
 
+def check_username(username):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute(f'SELECT * FROM users WHERE username="{username}"')
+    data = c.fetchone()
+    conn.close()
+    if data:
+        return False
+    else:
+        return True
+
 def get_data_entry(id):
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -35,6 +46,8 @@ get_data_entry(1)
 def register():
     if request.method == 'POST':
         username = request.form['username']
+        username_is_used = check_username(username)
+        
         password = request.form['password']
         email = request.form['email']
         blood_type = request.form['blood-type']
