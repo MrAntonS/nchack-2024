@@ -110,7 +110,7 @@ def connect():
         data = request.get_json()
         return json.dumps({'status': 'OK', 'data': data}), 200, {'ContentType': 'application/json'}
     
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     try:
         current_user = get_data_entry(session['username'])
@@ -119,10 +119,15 @@ def home():
         print(e)
         current_user = None
         return redirect('/login')
-
+    
     users = get_all_entries()
-    users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
-    users = sorted(users, key=lambda x: x[12], reverse=True)
+    print(users[0])
+    if request.method == 'GET':
+        users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
+    if request.method == 'POST':
+        users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
+        users = list(filter(lambda x: x[17] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[10] >= int(request.form["bloodAmount"]), users))
+    users = sorted(users, key=lambda x: x[17])
     return render_template('index.html', users = users, current_user=current_user)
 
 try:
