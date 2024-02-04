@@ -21,7 +21,7 @@ def create_data_entry(username, password, email, blood_type, age, weight, locati
     c = conn.cursor()
     insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
     current_date = datetime.date.today().strftime("%Y-%m-%d")
-    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 0, current_date)
+    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date)
     c.execute(insert_req, data)
     conn.commit()
     conn.close()
@@ -43,7 +43,6 @@ def get_data_entry(username):
     c.execute(f'SELECT * FROM users WHERE username=?', (username,))
     data = c.fetchone()
     conn.close()
-    print(data)
     return data
 
 
@@ -62,6 +61,7 @@ def register():
         location = request.form['location']
         medical_conditions = request.form['medical-conditions']
         lattitude, longitude = User.lngLat(location, User.API_KEY)
+        print(lattitude, longitude)
         create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, 0, 0, medical_conditions)
         session['username'] = username
         return "Registered"
@@ -114,14 +114,15 @@ def connect():
 def home():
     try:
         current_user = get_data_entry(session['username'])
-
+        assert current_user != None
     except Exception as e:
         print(e)
         current_user = None
         return redirect('/login')
 
     users = get_all_entries()
-    users = sorted(users, key=lambda x: User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]), reverse=True)
+    users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
+    users = sorted(users, key=lambda x: x[12], reverse=True)
     return render_template('index.html', users = users, current_user=current_user)
 
 try:

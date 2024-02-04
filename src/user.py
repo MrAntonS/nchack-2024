@@ -1,5 +1,6 @@
 import math
 import requests
+import time
 
 def deg2rad(deg):
     return deg * (math.pi/180)
@@ -17,12 +18,19 @@ class User:
         self.medicalConditions = medicalConditions
         self.rating = rating
         # address format: streetNumber streetName city State postalCode Country
-        self.address = address.replace(' ', '+')
 
     def lngLat(address, API_KEY):
-        geocode = "https://geocode.maps.co/search?q=" + address + "&api_key=" + API_KEY
-        data = requests.get(geocode)
-        data = data.json()
+        geocode = "https://geocode.maps.co/search?q='" + address + "'&api_key=" + API_KEY
+        data = []
+        tries = 3
+        while data == [] and tries > 0:
+            tries -= 1
+            data = requests.get(geocode)
+            time.sleep(1)
+            try:
+                data = data.json()
+            except Exception:
+                data = []
         try:
             lat = data[0]['lat']
             lng = data[0]['lon']
@@ -39,5 +47,7 @@ class User:
         a = math.sin(degLat/2) * math.sin(degLat/2) + math.cos(deg2rad(lat1)) * math.cos(deg2rad(lat2)) * math.sin(degLng/2) * math.sin(degLng/2)
         b = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
         distance = radius * b
-        return distance
+        distance_miles = distance * 0.621371 
+        return distance_miles
     
+print(User.lngLat("703 Windfall, IL", User.API_KEY))

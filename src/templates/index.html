@@ -53,9 +53,12 @@
 
         .entry {
             height: 150px;
-            width: 100%;
+            width: 98.5%;
             border: 1px solid #000;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
         }
 
         /* Rounded textboxes and inputs */
@@ -152,7 +155,6 @@
 
         .bloodtype {
             height: 27%;
-            border: 1px solid #000;
         }
 
         #Long-Medical-History {
@@ -191,19 +193,19 @@
 
 <body>
     <script>
-        function sendConnectionRequest(yourUrl, user1, user2) {
+        function sendConnectRequest(yourUrl, user1, user2) {
             fetch(yourUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(
-                    {
-                        "user1": user1,
-                        "user2": user2
-                    }
-                )
-            });
+                body: JSON.stringify({
+                    "user1": user1,
+                    "user2": user2
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
         }
     </script>
     
@@ -234,32 +236,36 @@
             <!-- avatar -->
             <div class="scrollable_area">
                 {% for user in users %}
+                {% if user[1] != current_user[1] %}
                 <div class="entry">
                     <div id="picture"
-                        style="height:115px; width:115px; border-radius:100%; border:1px solid #000; margin-left:20px; margin-top:15px; text-align:center; line-height:110px;">
+                        style="height:115px; width:115px; border-radius:100%; border:1px solid #000; margin-left:20px; margin-top:0px; text-align:center; line-height:110px;">
                         {{user[1]}}</div>
 
                     <!-- blood type symbol -->
                     <div id="blood-type-symbol"
-                        style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px">{{user[4]}}</div>
+                        style="margin-left:20px;margin-top:15px">{{user[4]}}</div>
 
                     <!-- medical history -->
-                    <textarea id="medical-history"
-                        style="height:115px; width:220px; border:1px solid #000;margin-left:20px;margin-top:15px; overflow:scroll;">{{user[12]}}</textarea>
+                    <div id="medical-history"
+                        style="height:115px; width:240px; border:1px solid #000; border-radius: 10px; margin-left:20px; overflow:scroll; text-align: center; display: flex; justify-content: center; align-items: center;">{{user[12]}}</div>
 
                     <!-- available blood -->
                     <div id="blood-type-symbol"
-                        style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px">{{user[14]}}</div>
+                        style="height:30px; width:150px; border:1px solid #000;margin-left:20px; text-align: center; display: flex; justify-content: center; align-items: center;"><div>{{user[15]}}</div></div>
 
                     <!-- distance from you -->
                     <div id="blood-type-symbol"
-                        style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
+                        style="height:115px; width:115px;margin-left:20px; text-align: center; display: flex; justify-content: center; align-items: center;">
+                        <div>{{user[17]}} Miles</div>
+                    </div>
 
                     <!-- connect button -->
                     <button id="blood-type-symbol"
-                        style="height:50px; width:115px; border:1px solid #000;margin-left:20px;margin-top:45px; border-radius:15px; text-align:center; line-height:45px;"
-                        onclick="sendConnectRequest('{{ current_user[1] }}', '{{ user[1] }}')">Connect</button>
+                        style="height:50px; width:115px; border:1px solid #000;margin-left:20px; margin-right: 10px; border-radius:15px; text-align:center; line-height:45px;"
+                        onclick="sendConnectRequest('/connect', '{{ current_user[1] }}', '{{ user[1] }}')">Connect</button>
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
 
@@ -269,12 +275,12 @@
         <!-- Right side -->
         <div id="Right-side" style="width:34%; float:left;">
 
-            <div id="Amount-Of-Blood-To-Donate">YOUR blood to donate</div>
+            <div id="Amount-Of-Blood-To-Donate">{{current_user[15]}}</div>
             <div id="Profile-Information">
                 <div class="container">
                     <div class="column1">
-                        <div class="box">Rating</div>
-                        <div class="box">Location</div>
+                        <div class="box">Rating<br>{{current_user[10]}}</div>
+                        <div class="box">{{current_user[7]}}</div>
                     </div>
                     <div class="column2">
                         <a href="/profile", style="text-decoration: none;">
@@ -286,17 +292,14 @@
                                 <!-- END: ed8c6549bwf9 -->
                             </button>
                         </a>
-                        <div class="bloodtype">Blood Type</div>
+                        <div class="bloodtype">{{current_user[4]}}</div>
                     </div>
                 </div>
 
             </div>
             <div id="Long-Medical-History"
-                style="overflow:scroll; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px;">
-                Box to show all YOUR medical history</div>
-            <div id="Short-Medical-History"
-                style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px;">Box to show YOUR
-                shorter medical history</div>
+                style="overflow:scroll; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center;">
+                {{current_user[12]}}</div>
             <div id="Public-Profile">
                 <div id="Public-Buttons">
                     <button id="public" class="btn btn-primary"
