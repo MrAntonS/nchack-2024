@@ -228,11 +228,6 @@ def home():
     users = sorted(users, key=lambda x: x[-1])
     return render_template('index.html', users = users, current_user=current_user)
 
-try:
-    print(session["username"], "you are")
-except:
-    print("You're not logged in")
-
 create_database()
 if __name__ == '__main__':
     app.run()
