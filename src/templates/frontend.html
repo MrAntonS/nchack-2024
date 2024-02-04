@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- title -->
+    <title>BloodLink</title>
+
+    <!-- <style type="text/css"> -->
+    <style>
+
+        body {
+            margin: 10px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Divides the screen into a left AND right side */
+        #Overall-Container {
+            width:100%;
+            height:682px;
+            border: 1px solid #000;
+        }
+        
+
+
+        /* Organizes the left side (2/3) of the screen */
+        #Left-side {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* this will create a CONTAINER for the top row */
+        .Options {
+            flex: 1;
+            display: flex;
+        }
+
+        /* this creates the BOXES (blood types needed, amount of blood needed, distance from me) */
+        .column {
+            flex: 1;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+
+
+
+        /* Organizes the right side (1/3) of the screen */
+        #Right-side {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #Amount_Of_Blood_To_Donate {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+
+        #Profile-Information {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+
+        #Long-Medical-History {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+
+        #Short-Medical-History {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+        
+    </style>
+</head>
+
+    <!-- Start of HTML stuff -->
+    <body>
+        
+        <!-- Overall container to hold left and right sides -->
+        <div id="Overall-Container">
+            
+            <!-- Left side -->
+            <div id="Left-side" style="width:66%; float:left;">
+                <!-- Top row: blood types needed, amount of blood needed, distance from me -->
+                <!-- TODO: add a container for the filter -->
+                <div class="Options">
+                    <div class="column">Blood type(s) needed</div>
+                    <div class="column">Amount of Blood Needed</div>
+                    <div class="column">Distance From Me</div>
+                </div>
+                
+                <!-- Scroll through people -->
+                <div class="Donors">
+                    <!-- TODO: how do you scroll through like 20 people at a time -->
+
+                    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+                </div>
+            </div>
+            
+            <!-- Right side -->
+            <div id="Right-side" style="width:34%; float:left;">
+                
+                <div id="Amount-Of-Blood-To-Donate">Amount of Blood to Donate</div>
+                <div id="Profile-Information">TODO: Include rating, profile picture, location, and blood type in this chunk</div>
+                <div id="Long-Medical-History">TODO: Medical history</div>
+                <div id="Short-Medical-History">TODO: Shorter medical history</div>
+            </div>
+        </div>
+
+        <!-- Left Side of Second Page -->
+         <div id="Left Side Page Two">
+                 
+                             <!-- Scroll through your Requests -->
+                <div class="Your Donors">
+                    <!-- TODO: Scroll through each potential donor -->
+                </div>
+         </div>
+        <!-- Right Side of Second Page -->
+        <div id="Right Side Page Two">
+                             <!-- Scroll through other people's Requests -->
+                <div class="Your recipients">
+                    <!-- TODO: Scroll through each potential recipient -->
+                </div>
+         </div>
+    </body>    
+</html>
