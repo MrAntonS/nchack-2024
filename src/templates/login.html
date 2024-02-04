@@ -70,46 +70,18 @@
 </head>
 <body>
     <div class="container" data-spy="scroll" data-target="#navbar-example" data-offset="0">
-        <h1>Registration</h1>
-        <form method="post" action="/register">
-            <label for="username">Username:</label>
-            {% if name_used %}
-            <input type="text" id="username" name="username" required value="{{ name }}"><br><br>
-            <label style="color: red;">Name is being used</label>
-            {% else %}
-                <input type="text" id="username" name="username" required><br><br>
+        <h1>Login</h1>
+        <form method="post" action="/login">
+            {% if not logged_in %}
+                    <p style="color: red;">Username or password is wrong</p>
             {% endif %}
-                        
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
             
-            <label for="blood-type">Blood Type:</label>
-            <select id="blood-type" name="blood-type" required>
-                <option value="">Select Blood Type</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-            </select><br><br>
-            
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required><br><br>
-            
-            <label for="weight">Weight:</label>
-            <input type="number" id="weight" name="weight" required><span>lb</span><br><br>
-            <label for="weight">Location:</label>
-            <input type="text" id="location" name="location" required placeholder="123 Main Street, City, State, ZIP" style="color: gray;">
-            <label for="medical-conditions">Medical Conditions:</label>
-            <textarea id="medical-conditions" name="medical-conditions" required></textarea><br><br>
-            <input type="submit" value="Register" class="register-button">
-            Sign in <a href="/login">here</a>
+            <button type="submit" value="Login" class="login-button">Login</button>
+            <button type="button" onclick="window.location.href='/register'">Register</button>
         </form>
     </div>
 </body>

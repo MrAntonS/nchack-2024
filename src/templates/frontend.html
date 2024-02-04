@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <!-- required meta tags -->
@@ -7,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!-- title -->
     <title>BloodLink</title>
 
     <!-- <style type="text/css"> -->
     <style>
-
         body {
             margin: 10px;
             padding: 0;
@@ -23,11 +24,10 @@
 
         /* Divides the screen into a left AND right side */
         #Overall-Container {
-            width:100%;
-            height:683px;
+            width: 100%;
             border: 1px solid #000;
         }
-        
+
 
 
         /* Organizes the left side (2/3) of the screen */
@@ -58,17 +58,28 @@
             display: flex;
         }
 
+        /* Rounded textboxes and inputs */
+        textarea,
+        input,
+        .entry {
+            border-radius: 10px;
+            overflow-y: scroll;
+        }
 
 
 
-
+        .scrollable_area {
+            overflow-y: scroll;
+            height: 100vh;
+        }
 
         /* Organizes the right side (1/3) of the screen */
         #Right-side {
             display: flex;
             flex-direction: column;
-            height: 682px;
+            height: 98vh;
             border: 1px solid #000;
+            border-radius: 10px;
         }
 
         #Amount-Of-Blood-To-Donate {
@@ -134,7 +145,7 @@
             border: 1px solid #000;
         }
 
-        .bloodtype{
+        .bloodtype {
             height: 27%;
             border: 1px solid #000;
         }
@@ -148,7 +159,7 @@
             margin-left: 20px;
             margin-right: 20px;
             border: 1px solid #000;
-            height: 150px;
+            height: 100%;
         }
 
         #Short-Medical-History {
@@ -159,7 +170,7 @@
             margin-left: 20px;
             margin-right: 20px;
             border: 1px solid #000;
-            height: 110px;        
+            height: 100%;
         }
 
         #Public-Profile {
@@ -168,107 +179,121 @@
             text-align: center;
             height: 73px;
         }
-        
     </style>
 </head>
 
-    <!-- Start of HTML stuff -->
-    <body>
-        
-        <!-- Overall container to hold left and right sides -->
-        <div id="Overall-Container">
-            
-            <!-- Left side -->
-            <div id="Left-side" style="width:66%; float:left;">
-                <!-- Top row: blood types needed, amount of blood needed, distance from me -->
-                <!-- TODO: add a container for the filter -->
-                <div class="Options">
-                    <div class="column">Blood type(s) needed</div>
-                    <div class="column">Amount of Blood Needed</div>
-                    <div class="column">Distance From Me</div>
+<!-- Start of HTML stuff -->
+
+<body>
+
+    <!-- Overall container to hold left and right sides -->
+    <div id="Overall-Container">
+
+        <!-- Left side -->
+        <div id="Left-side" style="width:66%; float:left;">
+            <!-- Top row: blood types needed, amount of blood needed, distance from me -->
+            <!-- TODO: add a container for the filter -->
+            <div class="Options">
+                <div class="column" style="white-space: nowrap;"><label for="bloodTypes">Blood type(s) needed</label><br><br>
+                    <select id="bloodTypes" name="Blood Types">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <input type="submit" value="Submit">
                 </div>
-                
-                <!-- Scroll through people
+                <div class="column" style="white-space: nowrap;"><label>Amount of Blood Needed</label><br><br>
+                    <input type="number" min="0" max="500" name="bloodAmount" required><span style="margin-left:10px;">mL</span>
+                </div>
+                <div class="column" style="white-space: nowrap;"><label>Distance From Me</label><br><br>
+                    <input type="number" min="0" name="distanceFromUser" required><span style="margin-left:10px;">km</span>
+                </div>
+            </div>
+
+            <!-- Scroll through people
                 <div class="Donors">
                     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
                 </div> -->
-                <!-- TODO: i dont know how to scroll through like a couple entries at a time. i can do static stuff though maybe -->
+            <!-- TODO: i dont know how to scroll through like a couple entries at a time. i can do static stuff though maybe -->
 
 
 
-                <!-- this is one static entry --> 
-                <div class="entry">
-                    <!-- avatar -->
-                    <div id="picture" style="height:115px; width:115px; border-radius:100%; border:1px solid #000; margin-left:20px; margin-top:15px; text-align:center; line-height:110px;">Avatar</div>
+            <!-- this is one static entry -->
+            <!-- avatar -->
+            <div class="scrollable_area">
+            {% for user in users %}
+            <div class="entry">
+                <div id="picture"
+                    style="height:115px; width:115px; border-radius:100%; border:1px solid #000; margin-left:20px; margin-top:15px; text-align:center; line-height:110px;">
+                    {{user[0]}}</div>
 
-                    <!-- blood type symbol -->
-                    <div id="blood-type-symbol" style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
+                <!-- blood type symbol -->
+                <div id="blood-type-symbol"
+                    style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
 
-                    <!-- medical history -->
-                    <textarea id="medical-history" style="height:115px; width:220px; border:1px solid #000;margin-left:20px;margin-top:15px; overflow:scroll;"> Scrollable medical history </textarea>
+                <!-- medical history -->
+                <textarea id="medical-history"
+                    style="height:115px; width:220px; border:1px solid #000;margin-left:20px;margin-top:15px; overflow:scroll;"> Scrollable medical history </textarea>
 
-                    <!-- available blood -->
-                    <div id="blood-type-symbol" style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
+                <!-- available blood -->
+                <div id="blood-type-symbol"
+                    style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
 
-                    <!-- distance from you -->
-                    <div id="blood-type-symbol" style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
+                <!-- distance from you -->
+                <div id="blood-type-symbol"
+                    style="height:115px; width:115px; border:1px solid #000;margin-left:20px;margin-top:15px"></div>
 
-                    <!-- connect button -->
-                    <button id="blood-type-symbol" style="height:50px; width:115px; border:1px solid #000;margin-left:20px;margin-top:45px; border-radius:40%; text-align:center; line-height:45px;">Connect</button>
-
-
+                <!-- connect button -->
+                <button id="blood-type-symbol"
+                    style="height:50px; width:115px; border:1px solid #000;margin-left:20px;margin-top:45px; border-radius:40%; text-align:center; line-height:45px;">Connect</button>
                 </div>
-
+                {% endfor %}
             </div>
-            
 
-
-            
-            <!-- Right side -->
-            <div id="Right-side" style="width:34%; float:left;">
-                
-                <div id="Amount-Of-Blood-To-Donate">YOUR blood to donate</div>
-                <div id="Profile-Information">
-                    <div class="container">
-                        <div class="column1">
-                            <div class="box">Rating</div>
-                            <div class="box">Location</div>
-                        </div>
-                        <div class="column2">
-                            <div class="avatar">Avatar</div>
-                            <div class="bloodtype">Blood Type</div>
-                        </div>
-                    </div>
-
-                </div>
-                <textarea id="Long-Medical-History" style="overflow:scroll;">Box to show all YOUR medical history</textarea>
-                <textarea id="Short-Medical-History" style="overflow:scroll;">Box to show YOUR shorter medical history</textarea>
-                <div id="Public-Profile">
-                    <div id="Public-Buttons">
-                        <button id="public" style="width: 42%; height: 55px; margin: 5px; position: relative;">Public</button>
-                        <button id="private" style="width: 42%; height: 55px; margin: 5px; position: relative",>Private</button>
-                    </div>
-                </div>
-
-            </div>
         </div>
 
-        <!-- Left Side of Second Page -->
-         <div id="Left Side Page Two">
-                 
-            <!-- Scroll through your Requests -->
-            <div class="Your Donors">
-                <!-- TODO: Scroll through each potential donor -->
-            </div>
-         </div>
-        <!-- Right Side of Second Page -->
-        <div id="Right Side Page Two">
-                             <!-- Scroll through other people's Requests -->
-                <div class="Your recipients">
-                    <!-- TODO: Scroll through each potential recipient -->
+
+        <!-- Right side -->
+        <div id="Right-side" style="width:34%; float:left;">
+
+            <div id="Amount-Of-Blood-To-Donate">YOUR blood to donate</div>
+            <div id="Profile-Information">
+                <div class="container">
+                    <div class="column1">
+                        <div class="box">Rating</div>
+                        <div class="box">Location</div>
+                    </div>
+                    <div class="column2">
+                        <div class="avatar">Avatar</div>
+                        <div class="bloodtype">Blood Type</div>
+                    </div>
                 </div>
-         </div>
-    </body>    
+
+            </div>
+            <div id="Long-Medical-History"
+                style="overflow:scroll; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px;">
+                Box to show all YOUR medical history</div>
+            <div id="Short-Medical-History"
+                style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px;">Box to show YOUR
+                shorter medical history</div>
+            <div id="Public-Profile">
+                <div id="Public-Buttons">
+                    <button id="public" class="btn btn-primary"
+                        style="width: 42%; height: 55px; margin: 5px; position: relative;">Public</button>
+                    <button id="private" class="btn btn-secondary"
+                        style="width: 42%; height: 55px; margin: 5px; position: relative" ,>Private</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
 </html>
