@@ -175,12 +175,16 @@
             transition: opacity .2s;
         }
 
+        .logout {
+            top: 0;
+        }
+
         #Long-Medical-History {
             /* flex: 1; */
             padding: 10px;
             text-align: center;
             margin-top: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 100px;
             margin-left: 20px;
             margin-right: 20px;
             border: 1px solid #000;
@@ -408,6 +412,9 @@
             <div id="Long-Medical-History"
                 style="overflow:scroll; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center;">
                 {{current_user[12]}}</div>
+            <div>
+                <a href="/login"><button id="Logout" class="logout">Logout</button></a>
+            </div>
             <div id="Public-Profile">
                 <div id="Public-Buttons">
                     <button id="public" class="btn btn-primary"
