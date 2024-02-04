@@ -194,6 +194,17 @@ def disconnect():
             conn.close()
             return redirect('/profile')
 
+@app.route('/toggle', methods=['POST'])
+def toggle():
+    current_user = get_data_entry(session['username'])
+    toggle = request.get_json()['toggle']
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute(f'UPDATE users SET is_donor="{toggle}" WHERE username="{current_user[1]}"')
+    conn.commit()
+    conn.close()
+    return redirect('/')
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     try:
@@ -212,6 +223,7 @@ def home():
         users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
         users = list(filter(lambda x: x[-1] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[10] >= int(request.form["bloodAmount"]), users))
     users = list(filter(lambda x: x[1] not in current_user[13], users))
+    users = list(filter(lambda x: x[11] == 1, users))
     users = sorted(users, key=lambda x: x[-1])
     return render_template('index.html', users = users, current_user=current_user)
 

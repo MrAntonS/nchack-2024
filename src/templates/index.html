@@ -234,6 +234,20 @@
         }
     </script>
 
+<script>
+    function sendTogglePrivacy(event, yourUrl, toggle) {
+        fetch(yourUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "toggle": toggle
+            })
+        })  
+    }
+</script>
+
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const healthBars = document.querySelectorAll('.health_bar');
@@ -393,9 +407,9 @@
             <div id="Public-Profile">
                 <div id="Public-Buttons">
                     <button id="public" class="btn btn-primary"
-                        style="width: 42%; height: 55px; margin: 5px; position: relative;">Public</button>
+                        style="width: 42%; height: 55px; margin: 5px; position: relative;" onclick="sendTogglePrivacy(event, '/toggle', '1')">Public</button>
                     <button id="private" class="btn btn-secondary"
-                        style="width: 42%; height: 55px; margin: 5px; position: relative;">Private</button>
+                        style="width: 42%; height: 55px; margin: 5px; position: relative;" onclick="sendTogglePrivacy(event, '/toggle', '0')">Private</button>
                 </div>
             </div>
 
