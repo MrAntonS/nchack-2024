@@ -328,6 +328,9 @@
         <div class="column">
             <div class="row row1">
                 <p>Your requests</p>
+                <div>
+                    <a href="/index"><button id="Back" class="back">Back</button></a>
+                </div>
             </div>
             <div class="row row2">
                 {% for user in users %}
@@ -347,14 +350,15 @@
                         <div class="rectangle">Status</div>
 
                         <!-- rating -->
-                        <div class="rating"><label for="rating"><b>Rating</b></label><br><br>
-                            <select id="rating" name="rating">
+                        <div class="rating"><label for="rating"><b>Rating</b></label><br>
+                            <select id="rating" name="rating" style="position:relative; left:5px">
                                 <option value="A+">1</option>
                                 <option value="A-">2</option>
                                 <option value="B+">3</option>
                                 <option value="B-">4</option>
                                 <option value="AB+">5</option>
-                            </select>
+                            </select><br>
+                            <input id="submit" type="submit" style="position:relative; left:-42px; top:30px" value="Submit">
                         </div>
                     </div>
                     {% endif %}
