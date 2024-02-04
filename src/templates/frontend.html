@@ -194,9 +194,25 @@
             <!-- Top row: blood types needed, amount of blood needed, distance from me -->
             <!-- TODO: add a container for the filter -->
             <div class="Options">
-                <div class="column">Blood type(s) needed</div>
-                <div class="column">Amount of Blood Needed</div>
-                <div class="column">Distance From Me</div>
+                <div class="column" style="white-space: nowrap;"><label for="bloodTypes">Blood type(s) needed</label><br><br>
+                    <select id="bloodTypes" name="Blood Types">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <input type="submit" value="Submit">
+                </div>
+                <div class="column" style="white-space: nowrap;"><label>Amount of Blood Needed</label><br><br>
+                    <input type="number" min="0" max="500" name="bloodAmount" required><span style="margin-left:10px;">mL</span>
+                </div>
+                <div class="column" style="white-space: nowrap;"><label>Distance From Me</label><br><br>
+                    <input type="number" min="0" name="distanceFromUser" required><span style="margin-left:10px;">km</span>
+                </div>
             </div>
 
             <!-- Scroll through people
