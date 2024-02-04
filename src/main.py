@@ -83,7 +83,6 @@ def profile():
 def home():
     users = get_all_entries()
     print(users)
-    print(session["username"], "you are")
     return render_template('frontend.html', users = [["asdas"]])
 
 try:
