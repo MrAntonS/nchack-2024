@@ -20,8 +20,13 @@ class User:
         geocode = "https://geocode.maps.co/search?q=" + address + "&api_key=" + API_KEY
         data = requests.get(geocode)
         data = data.json()
-        lat = data[0]['lat']
-        lng = data[0]['lon']
+        try:
+            lat = data[0]['lat']
+            lng = data[0]['lon']
+        except Exception:
+            lat = 0
+            lng = 0
+            
         return lng, lat
 
 

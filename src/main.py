@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3
 import hashlib
+from user import User
 
 app = Flask(__name__, template_folder='./templates')
 
@@ -47,14 +48,16 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         username_is_used = check_username(username)
-        
-        password = request.form['password']
+        if not username_is_used:
+            return render_template('register.html', name_used="Username is already in use")
+        password = hashlib.sha256(request.form['password'].encode()).hexdigest()
         email = request.form['email']
         blood_type = request.form['blood-type']
         age = request.form['age']
         weight = request.form['weight']
         location = request.form['location']
         medical_conditions = request.form['medical-conditions']
+        lattitude, longitude = User.lngLat(location, User.API_KEY)
         create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, 0, 0, medical_conditions)
         return "Registered"
     elif request.method == 'GET':
