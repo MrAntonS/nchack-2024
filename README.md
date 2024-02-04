@@ -1,4 +1,4 @@
-<img src="https://github.com/MrAntonS/nchack-2024/blob/main/Logo.png?raw=true" width=50% height=50%>
+<img src="https://github.com/MrAntonS/nchack-2024/blob/main/src/assets/static/Logo.png?raw=true" width=50% height=50%>
 
 NCSU HACKATHON 2024 - BloodLink
 
@@ -21,3 +21,14 @@ There is also a points system for donors- how many times they've given blood, ho
 ## Stack
 * Python Flask - Backend
 * HTML, CSS - FrontEnd
+
+## Installation process
+```python
+# Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install the required packages
+pip install -r requirements.txt
+```
+
