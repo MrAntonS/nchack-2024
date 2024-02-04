@@ -12,16 +12,16 @@ app.config['SESSION_TYPE'] = 'filesystem'
 def create_database():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT, amount_of_blood_left REAL, last_donation TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT, amount_of_blood_left REAL, last_donation TEXT, recipient TEXT)')
     conn.commit()
     conn.close()
 
 def create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions):
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
     current_date = datetime.date.today().strftime("%Y-%m-%d")
-    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date)
+    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date, '', '')
     c.execute(insert_req, data)
     conn.commit()
     conn.close()
@@ -80,7 +80,15 @@ def get_all_entries():
 
 @app.route('/profile')
 def profile():
-    return render_template('requests_page.html')
+    current_user = get_data_entry(session['username'])
+    users = get_all_entries()
+    others_requests = list(filter(lambda x: current_user[1] in x[13], users))
+    your_requests = list(filter(lambda x: x[1] in current_user[13], users))
+    print(your_requests, current_user[13])
+    your_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], your_requests))
+    others_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], others_requests))
+    # accepted_user = list(filter(lambda x: x[1] in current_user[], users))
+    return render_template('requests_page.html', users=your_requests, current_user=current_user, others_requests=others_requests, accepted_requests=([] != []), accepted_user = [])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -150,8 +158,9 @@ def home():
         users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
     if request.method == 'POST':
         users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
-        users = list(filter(lambda x: x[17] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[10] >= int(request.form["bloodAmount"]), users))
-    users = sorted(users, key=lambda x: x[17])
+        users = list(filter(lambda x: x[-1] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[10] >= int(request.form["bloodAmount"]), users))
+    users = list(filter(lambda x: x[1] not in current_user[13], users))
+    users = sorted(users, key=lambda x: x[-1])
     return render_template('index.html', users = users, current_user=current_user)
 
 try:

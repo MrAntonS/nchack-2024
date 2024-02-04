@@ -51,6 +51,7 @@
             flex: 3;
             display:flex;
             align-items:center;
+            overflow: scroll;
         }
 
         .circle {
@@ -281,33 +282,57 @@
                 <p>Your requests</p>
             </div>
             <div class="row row2">
-                <div class="icons-container"">
-                    <div class="circle">Avatar</div>
-                    <div class="blood-type">Blood type</div>
-                    <div class="available-blood">Available blood</div>
-                    <div class="distance-away">Distance away</div>
-                    <div class="rectangle">Status</div>
+                {% for user in users %}
+                {% if user[1] != current_user[1] %}
+                <div class="icons-container">
+                    <div class="circle">{{user[1]}}</div>
+                    <div class="blood-type">{{user[4]}}</div>
+                        <!-- available blood -->
+                        <div class="available-blood">
+                            {{user[15]}} ml
+                        </div>
+    
+                        <!-- distance from you -->
+                        <div class="distance-away">{{user[-1]}} Miles</div>
+    
+                        <!-- connect button -->
+                        <div class="rectangle">Status</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
-            </div>
         </div>
         <div class="column">
             <div class="row row1">
                 <p>Other's requests</p>
             </div>
             <div class="row row2">
+                {% for user in others_requests %}
+                {% if user[1] != current_user[1] %}
                 <div class="icons-container">
-                    <div class="circle">Avatar</div>
-                    <div class="blood-type">Blood type</div>
-                    <div class="available-blood">Available blood</div>
-                    <div class="distance-away">Distance away</div>
-                    <div class="rectangle">Status</div>
+                    <div class="circle">{{user[1]}}</div>
+                    <div class="blood-type">{{user[4]}}</div>
+                        <!-- available blood -->
+                        <div class="available-blood">
+                            {{user[15]}} ml
+                        </div>
+    
+                        <!-- distance from you -->
+                        <div class="distance-away">{{user[-1]}} Miles</div>
+    
+                        <!-- connect button -->
+                        <div class="rectangle">Accept</div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="middle-row">Accepted</div>
 
+    {%if accepted_requests %}
+
+    <div class="middle-row">Accepted</div>
     <div class="last-row">
         <div class="small-column">
             <div class="small-row">
@@ -337,6 +362,9 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="middle-row">No accepted requests</div>
+    {% endif %}
 
 </body>
 </html>
