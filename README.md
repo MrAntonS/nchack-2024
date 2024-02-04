@@ -1,4 +1,4 @@
-<img src="https://github.com/MrAntonS/nchack-2024/blob/main/Logo.png?raw=true" width=50% height=50%>
+<img src="https://github.com/MrAntonS/nchack-2024/blob/main/src/assets/static/Logo.png?raw=true" width=50% height=50%>
 
 NCSU HACKATHON 2024 - BloodLink
 
