@@ -21,3 +21,14 @@ There is also a points system for donors- how many times they've given blood, ho
 ## Stack
 * Python Flask - Backend
 * HTML, CSS - FrontEnd
+
+## Installation process
+```python
+# Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install the required packages
+pip install -r requirements.txt
+```
+
