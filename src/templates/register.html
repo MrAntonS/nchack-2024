@@ -87,7 +87,21 @@
             <input type="password" id="password" name="password" required><br><br>
             
             <label for="blood-type">Blood Type:</label>
-            <input type="text" id="blood-type" name="blood-type" required placeholder="A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-"><br><br>
+            <select id="blood-type" name="blood-type" required>
+                <option value="">Select Blood Type</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="AB">AB</option>
+                <option value="O">O</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select><br><br>
             
             <label for="age">Age:</label>
             <input type="number" id="age" name="age" required><br><br>
@@ -99,6 +113,7 @@
             <label for="medical-conditions">Medical Conditions:</label>
             <textarea id="medical-conditions" name="medical-conditions" required></textarea><br><br>
             <input type="submit" value="Register" class="register-button">
+            Sign in <a href="/login">here</a>
         </form>
     </div>
 </body>

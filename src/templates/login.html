@@ -72,12 +72,16 @@
     <div class="container" data-spy="scroll" data-target="#navbar-example" data-offset="0">
         <h1>Login</h1>
         <form method="post" action="/login">
+            {% if not logged_in %}
+                    <p style="color: red;">Username or password is wrong</p>
+            {% endif %}
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
             
-            <input type="submit" value="Login" class="login-button">
+            <button type="submit" value="Login" class="login-button">Login</button>
+            <button type="button" onclick="window.location.href='/register'">Register</button>
         </form>
     </div>
 </body>
