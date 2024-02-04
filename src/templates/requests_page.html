@@ -347,8 +347,11 @@
                         <div class="distance-away">{{user[-1]}} Miles</div>
     
                         <!-- connect button -->
-                        <div class="rectangle">Status</div>
-
+                        {%if user[-3] == current_user[1] %}
+                            <div class="rectangle" style="background-color: rgb(60, 205, 60);">Connected</div>
+                        {% else %}
+                        <div class="rectangle" style="background-color: rgb(220, 73, 71);">Not Connected</div>
+                        {% endif %}
                         <!-- rating -->
                         <div class="rating"><label for="rating"><b>Rating</b></label><br>
                             <select id="rating" name="rating" style="position:relative; left:5px">
