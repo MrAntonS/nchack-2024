@@ -37,16 +37,12 @@ def register():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        blood_type = request.form['blood_type']
+        blood_type = request.form['blood-type']
         age = request.form['age']
         weight = request.form['weight']
         location = request.form['location']
-        lattitude = request.form['lattitude']
-        longitude = request.form['longitude']
-        rating = request.form['rating']
-        is_donor = request.form['is_donor']
-        medical_conditions = request.form['medical_conditions']
-        create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions)
+        medical_conditions = request.form['medical-conditions']
+        create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, 0, 0, medical_conditions)
         return "Registered"
     elif request.method == 'GET':
         return render_template('register.html')
