@@ -108,7 +108,31 @@ def login():
 def connect():
     if request.method == 'POST':
         data = request.get_json()
-        return json.dumps({'status': 'OK', 'data': data}), 200, {'ContentType': 'application/json'}
+        current_user = get_data_entry(data['user1'])
+        receipient = get_data_entry(data['user2'])
+        if current_user[13] == None or receipient[14] == None:
+            current_users = data["user2"] + ","
+            receipients = data["user1"] + ","
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            c.execute(f'UPDATE users SET requests="{current_users}" WHERE username="{current_user[1]}"')
+            c.execute(f'UPDATE users SET donations="{receipients}" WHERE username="{receipient[1]}"')
+            conn.commit()
+            conn.close()
+            return json.dumps({'status': 'OK', 'data': "Connected"}), 200, {'ContentType': 'application/json'}
+        
+        elif (data["user2"] in current_user[13] or data["user1"] in receipient[14]):
+            return json.dumps({'status': 'OK', 'data': "Already connected"}), 200, {'ContentType': 'application/json'}
+        else:
+            current_users = current_user[13] + data["user2"] + ","
+            receipients = receipient[14] + data["user1"] + ","
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            c.execute(f'UPDATE users SET requests="{current_users}" WHERE username="{current_user[1]}"')
+            c.execute(f'UPDATE users SET donations="{receipients}" WHERE username="{receipient[1]}"')
+            conn.commit()
+            conn.close()
+            return json.dumps({'status': 'OK', 'data': "Connected"}), 200, {'ContentType': 'application/json'}
     
 @app.route('/', methods=['GET', 'POST'])
 def home():
