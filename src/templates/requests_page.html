@@ -267,15 +267,32 @@
             margin-right:30px;
             border-radius:10%;
         }
-
-
-        
-
-
-
     </style>
 </head>
 <body>
+    <script>
+        function sendConnectRequest(event, yourUrl, recipient) {
+            fetch(yourUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "recipient": recipient,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const button = event.target;
+                // Your code here
+                button.style.backgroundColor = 'rgb(21, 198, 106)';
+                button.disabled = true; // Change the color to your desired color
+                location.reload(); // Reload the page
+            });     
+        }
+    </script>
+
     <div class="container">
         <div class="column">
             <div class="row row1">
@@ -321,7 +338,11 @@
                         <div class="distance-away">{{user[-1]}} Miles</div>
     
                         <!-- connect button -->
-                        <div class="rectangle">Accept</div>
+                        {%if current_user[-1] != '' or being_assisted%}
+                        <button onclick="sendConnectRequest(event, '/profile', '{{ user[1] }}')" disabled>Accept</button>
+                        {% else %}
+                        <button onclick="sendConnectRequest(event, '/profile', '{{ user[1] }}')">Accept</button>
+                        {% endif %}
                     </div>
                     {% endif %}
                     {% endfor %}
@@ -338,28 +359,41 @@
             <div class="small-row">
                 <div class="small-column-1">
                     <div class="column-1-top">
-                        <div class="circle">Avatar</div>
-                        <div class="column-1-small-rectangle">Rating</div>
+                        <div class="circle">{{accepted_user[1]}}</div>
+                        <div class="column-1-small-rectangle">{{accepted_user[10]}}/5</div>
                     </div>
                     <div class="column-1-bottom">
-                        <div class="column-1-big-rectangle">Contact Info</div>
+                        <div class="column-1-big-rectangle">Contact Info<br>
+                        {{accepted_user[3]}}
+                        </div>
                     </div>
                 </div>
                 <div class="small-column-2">
                     <div class="column-2">
-                        <div class="column-2-rectangle">Medical History</div>
+                        <div class="column-2-rectangle">
+                            Medical History<br>
+                            {{accepted_user[12]}}
+
+                        </div>
                     </div>
                 </div>
                 <div class="small-column-3">
                     <div class="column-3-top">
-                        <div class="column-3-big-rectangle">Distance from you</div>
+                        <div class="column-3-big-rectangle">Distance from you<br>{{accepted_user[-1]}} mi</div>
                     </div>
-                    <div class="column-3-bottom">
-                        <div class="column-3-small-rectangle">Finished</div>
-                        <div class="column-3-small-rectangle">Did not finish</div>
+                    <form action="/disconnect" style="margin-right: 30px; white-space: nowrap;" method="post">
+                        Blood Donated
+                        <input type="number" id="bloodAmount" min="0" max="500" name="bloodAmount" required><span style="margin-left:10px;">mL</span><br>
+                        Rating
+                        <input type="number" id="rating" min="1" max="5" name="rating" required><br>
+                        <div style="display: flex; align-items: center; text-align: center;">
+                            <input type="submit" value="Finished" style="width: 48%;" class="column-3-small-rectangle">
+                        </div>
+                    </form>
+                    <form action="/disconnect" style="margin-right: 30px;" method="get">
+                        <input type="submit" value="Did not finish" style="width: 90%;" class="column-3-small-rectangle">
+                    </form>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
     {% else %}

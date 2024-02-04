@@ -78,17 +78,32 @@ def get_all_entries():
     conn.close()
     return data
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     current_user = get_data_entry(session['username'])
+    if request.method == 'POST':
+        recipient = request.get_json()['recipient']
+        recipient_data = get_data_entry(recipient)
+        if current_user[1] in recipient_data[-5]:
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            c.execute(f'UPDATE users SET recipient="{recipient}" WHERE username="{current_user[1]}"')
+            conn.commit()
+            conn.close()
+            return json.dumps({'status': 'OK', 'data': "Connected"}), 200, {'ContentType': 'application/json'}
+
     users = get_all_entries()
     others_requests = list(filter(lambda x: current_user[1] in x[13], users))
     your_requests = list(filter(lambda x: x[1] in current_user[13], users))
     print(your_requests, current_user[13])
     your_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], your_requests))
     others_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], others_requests))
-    # accepted_user = list(filter(lambda x: x[1] in current_user[], users))
-    return render_template('requests_page.html', users=your_requests, current_user=current_user, others_requests=others_requests, accepted_requests=([] != []), accepted_user = [])
+    accepted_user = list(filter(lambda x: x[1] in current_user[-1], users))
+    being_assisted = list(filter(lambda x: current_user[1] in x[-1], users)) != []
+    if accepted_user != []:
+        accepted_user = accepted_user[0]
+        accepted_user =  list(accepted_user) + [round(User.getDistanceKm(lat1=accepted_user[8], lng1=accepted_user[9], lat2=current_user[8], lng2=current_user[9]))]
+    return render_template('requests_page.html', users=your_requests, current_user=current_user, others_requests=others_requests, accepted_requests=(accepted_user != []), accepted_user = accepted_user, being_assisted=being_assisted)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -142,6 +157,43 @@ def connect():
             conn.close()
             return json.dumps({'status': 'OK', 'data': "Connected"}), 200, {'ContentType': 'application/json'}
     
+@app.route('/disconnect', methods=['GET', 'POST'])
+def disconnect():
+    if request.method == 'POST':
+        current_user = get_data_entry(session['username'])
+        receipient = get_data_entry(current_user[-1])
+        current_users = current_user[13].replace(receipient[1] + ",", "")
+        receipients = receipient[14].replace(current_user[1] + ",", "")
+        blood_donated = current_user[-3] - int(request.form['bloodAmount'])
+        rating = current_user[10] + float(request.form['rating'])
+        
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute(f'UPDATE users SET donations="{current_users}" WHERE username="{current_user[1]}"')
+        c.execute(f'UPDATE users SET requests="{receipients}" WHERE username="{receipient[1]}"')
+        c.execute(f'UPDATE users SET recipient="" WHERE username="{current_user[1]}"')
+        c.execute(f'UPDATE users SET amount_of_blood_left="{blood_donated}" WHERE username="{current_user[1]}"')
+        c.execute(f'UPDATE users SET rating="{rating}" WHERE username="{receipient[1]}"')
+        conn.commit()
+        conn.close()
+        return redirect('/profile')
+    
+    elif request.method == 'GET':
+        current_user = get_data_entry(session['username'])
+        receipient = get_data_entry(current_user[-1])
+        if receipient != None:
+            current_users = current_user[13].replace(receipient[1] + ",", "")
+            receipients = receipient[14].replace(current_user[1] + ",", "")
+            
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            c.execute(f'UPDATE users SET donations="{current_users}" WHERE username="{current_user[1]}"')
+            c.execute(f'UPDATE users SET requests="{receipients}" WHERE username="{receipient[1]}"')
+            c.execute(f'UPDATE users SET recipient="" WHERE username="{current_user[1]}"')
+            conn.commit()
+            conn.close()
+            return redirect('/profile')
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     try:

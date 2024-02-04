@@ -246,8 +246,7 @@
         const healthBar = document.querySelector('.your_health_bar');
         const valueDiv = document.querySelector('.your_health_value');
         const value = parseInt(valueDiv.textContent);
-        value = value / 500 * 100;
-        healthBar.style.width = `${value}%`;
+        healthBar.style.width = `${value / 500 * 100}%`;
         console.log(value);
     });
 </script>
