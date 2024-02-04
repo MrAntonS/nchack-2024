@@ -272,7 +272,7 @@
         const valueDiv = document.querySelector('.your_health_value');
         const value = parseInt(valueDiv.textContent);
         healthBar.style.width = `${value / 500 * 100}%`;
-        console.log(value);
+        console.log(value / 500 * 100);
     });
 </script>
 
@@ -387,7 +387,11 @@
             <div id="Profile-Information">
                 <div class="container">
                     <div class="column1">
-                        <div class="box">Rating<br>{{current_user[10]}}</div>
+                        {% if current_user[-1] != 0 %}
+                        <div class="box">Rating<br>{{current_user[10]/current_user[-1]}}</div>
+                        {% else %}
+                        <div class="box">Rating<br>0</div>
+                        {% endif %}
                         <div class="box">{{current_user[7]}}</div>
                     </div>
                     <div class="column2">
