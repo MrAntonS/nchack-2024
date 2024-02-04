@@ -1,6 +1,9 @@
 import math
 import requests
 
+def deg2rad(deg):
+    return deg * (math.pi/180)
+
 class User:
 
     API_KEY = "65bec36441f29041192514iald6bc81"
@@ -29,15 +32,11 @@ class User:
             
         return lng, lat
 
-
-    def deg2rad(self, deg):
-        return deg * (math.pi/180)
-
-    def getDistanceKm(self, lng1, lat1, lng2, lat2):
+    def getDistanceKm(lng1, lat1, lng2, lat2):
         radius = 6371
-        degLat = self.deg2rad(lat2-lat1)
-        degLng = self.deg2rad(lng2-lng1)
-        a = math.sin(degLat/2) * math.sin(degLat/2) + math.cos(self.deg2rad(lat1)) * math.cos(self.deg2rad(lat2)) * math.sin(degLng/2) * math.sin(degLng/2)
+        degLat = deg2rad(lat2-lat1)
+        degLng = deg2rad(lng2-lng1)
+        a = math.sin(degLat/2) * math.sin(degLat/2) + math.cos(deg2rad(lat1)) * math.cos(deg2rad(lat2)) * math.sin(degLng/2) * math.sin(degLng/2)
         b = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
         distance = radius * b
         return distance
