@@ -10,7 +10,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 def create_database():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT)')
     conn.commit()
     conn.close()
 
@@ -43,7 +43,6 @@ def get_data_entry(id):
     print(data)
     return data
 
-get_data_entry(1)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
