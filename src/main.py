@@ -19,9 +19,9 @@ def create_database():
 def create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions):
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations, recipient) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
     current_date = datetime.date.today().strftime("%Y-%m-%d")
-    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date, '', '')
+    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date, '', '', '')
     c.execute(insert_req, data)
     conn.commit()
     conn.close()
