@@ -181,10 +181,10 @@ def connect():
 def disconnect():
     if request.method == 'POST':
         current_user = get_data_entry(session['username'])
-        receipient = get_data_entry(current_user[-1])
+        receipient = get_data_entry(current_user[-2])
         current_users = current_user[13].replace(receipient[1] + ",", "")
         receipients = receipient[14].replace(current_user[1] + ",", "")
-        blood_donated = current_user[-3] - int(request.form['bloodAmount'])
+        blood_donated = current_user[-4] - int(request.form['bloodAmount'])
         rating = receipient[10] + float(request.form['rating'])
         last_donation = datetime.date.today().strftime("%Y-%m-%d")
         print(rating, "rating")
