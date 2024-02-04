@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 import hashlib
 from user import User
 
 app = Flask(__name__, template_folder='./templates')
+app.secret_key = 'super secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 def create_database():
     conn = sqlite3.connect('database.db')
@@ -59,14 +61,27 @@ def register():
         medical_conditions = request.form['medical-conditions']
         lattitude, longitude = User.lngLat(location, User.API_KEY)
         create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, 0, 0, medical_conditions)
+        session['username'] = username
         return "Registered"
     elif request.method == 'GET':
         return render_template('register.html')
-    return "Fuck off"
+    else:
+        return "Invalid request"
+
+@app.route('/profile')
+def profile():
+    return render_template('requests_page.html')
 
 @app.route('/')
 def home():
+    print(session["username"], "you are")
     return render_template('welcome.html')
+
+try:
+    print(session["username"], "you are")
+except:
+    print("You're not logged in")
+
 
 if __name__ == '__main__':
     app.run()
