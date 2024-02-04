@@ -64,7 +64,7 @@ def register():
         print(lattitude, longitude)
         create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, 0, 0, medical_conditions)
         session['username'] = username
-        return "Registered"
+        return redirect('/')
     elif request.method == 'GET':
         return render_template('register.html')
     else:
