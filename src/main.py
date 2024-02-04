@@ -66,6 +66,14 @@ def register():
         return render_template('register.html')
     else:
         return "Invalid request"
+    
+def get_all_entries():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM users')
+    data = c.fetchall()
+    conn.close()
+    return data
 
 @app.route('/profile')
 def profile():
@@ -73,8 +81,10 @@ def profile():
 
 @app.route('/')
 def home():
+    users = get_all_entries()
+    print(users)
     print(session["username"], "you are")
-    return render_template('welcome.html')
+    return render_template('frontend.html', users = [["asdas"]])
 
 try:
     print(session["username"], "you are")
