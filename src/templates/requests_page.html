@@ -113,6 +113,21 @@
             background-color: #EEEEEE;
         }
 
+        .rating {
+            width:100px;
+            height:100px;
+            margin:5px;
+            border: 1px solid #000;
+            margin-left:10px;
+            margin-right:10px;
+            text-align:center;
+            justify-content:center;
+            align-items:center;
+            display:flex;
+            border-radius:10%;
+            background-color: #EEEEEE;
+        }
+
         .distance-away {
             width:100px;
             height:100px;
@@ -330,6 +345,17 @@
     
                         <!-- connect button -->
                         <div class="rectangle">Status</div>
+
+                        <!-- rating -->
+                        <div class="rating"><label for="rating"><b>Rating</b></label><br><br>
+                            <select id="rating" name="rating">
+                                <option value="A+">1</option>
+                                <option value="A-">2</option>
+                                <option value="B+">3</option>
+                                <option value="B-">4</option>
+                                <option value="AB+">5</option>
+                            </select>
+                        </div>
                     </div>
                     {% endif %}
                     {% endfor %}
@@ -349,7 +375,7 @@
                         <div class="available-blood">
                             {{user[15]}} ml
                         </div>
-    
+
                         <!-- distance from you -->
                         <div class="distance-away">{{user[-1]}} Miles</div>
     
