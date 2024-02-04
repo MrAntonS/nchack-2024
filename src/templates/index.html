@@ -220,6 +220,30 @@
             .then(data => console.log(data));
         }
     </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const healthBar = document.querySelector('.health_bar');
+            const valueDiv = document.querySelector('.health_value');
+
+            const value = parseInt(valueDiv.textContent) + 10;
+            healthBar.style.width = `${value}%`;
+            console.log(value);
+        });
+    </script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const healthBar = document.querySelector('.your_health_bar');
+        const valueDiv = document.querySelector('.your_health_value');
+
+        const value = parseInt(valueDiv.textContent);
+        healthBar.style.width = `${value}%`;
+        console.log(value);
+    });
+</script>
+
+    
     
     <!-- Overall container to hold left and right sides -->
     <div id="Overall-Container">
@@ -291,7 +315,12 @@
 
                     <!-- available blood -->
                     <div id="blood-type-symbol"
-                        style="height:30px; width:150px; border:1px solid #000;margin-left:20px; text-align: center; display: flex; justify-content: center; align-items: center;"><div>{{user[15]}}</div></div>
+                        style="height:30px; width:150px; border:1px solid #000;margin-left:20px; text-align: center; justify-content: center; align-items: center;">
+                        <div class="health_bar" style="height: 100%; width: 100%; background-color: red;"></div>
+                        <div class="health_value" style="margin-top: -25px;">
+                            {{user[15]}}
+                        </div>
+                    </div>
 
                     <!-- distance from you -->
                     <div id="blood-type-symbol"
@@ -313,8 +342,13 @@
 
         <!-- Right side -->
         <div id="Right-side" style="width:34%; float:left;">
-
-            <div id="Amount-Of-Blood-To-Donate">{{current_user[15]}}</div>
+            
+            <div id="Amount-Of-Blood-To-Donate">
+                <div class="your_health_bar" style="height: 100%; width: 100%; background-color: red;"></div>
+                <div class="your_health_value" style="margin-top: -20px;">
+                    {{current_user[15]}}
+                </div>
+            </div>
             <div id="Profile-Information">
                 <div class="container">
                     <div class="column1">
@@ -344,7 +378,7 @@
                     <button id="public" class="btn btn-primary"
                         style="width: 42%; height: 55px; margin: 5px; position: relative;">Public</button>
                     <button id="private" class="btn btn-secondary"
-                        style="width: 42%; height: 55px; margin: 5px; position: relative" ,>Private</button>
+                        style="width: 42%; height: 55px; margin: 5px; position: relative;">Private</button>
                 </div>
             </div>
 
