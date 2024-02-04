@@ -75,8 +75,29 @@ def get_all_entries():
     c = conn.cursor()
     c.execute('SELECT * FROM users')
     data = c.fetchall()
+    for i in data:
+        check_last_donated(i[1])
     conn.close()
     return data
+
+def check_last_donated(username):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute(f'SELECT last_donation FROM users WHERE username="{username}"')
+    last_donated = c.fetchone()[0]
+    print(username)
+    print(last_donated)
+    conn.close()
+
+    current_date = datetime.datetime.now().date()
+    last_donated_date = datetime.datetime.strptime(last_donated, '%Y-%m-%d').date()
+    three_months_ago = current_date - datetime.timedelta(days=3*30)
+    if last_donated_date < three_months_ago:
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        c.execute(f'UPDATE users SET amount_of_blood_left=500, last_donation="{current_date}" WHERE username="{username}"')
+        conn.commit()
+        conn.close()
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -165,6 +186,7 @@ def disconnect():
         receipients = receipient[14].replace(current_user[1] + ",", "")
         blood_donated = current_user[-3] - int(request.form['bloodAmount'])
         rating = receipient[10] + float(request.form['rating'])
+        last_donation = datetime.date.today().strftime("%Y-%m-%d")
         print(rating, "rating")
         
         conn = sqlite3.connect('database.db')
@@ -174,6 +196,7 @@ def disconnect():
         c.execute(f'UPDATE users SET recipient="" WHERE username="{current_user[1]}"')
         c.execute(f'UPDATE users SET amount_of_blood_left="{blood_donated}" WHERE username="{current_user[1]}"')
         c.execute(f'UPDATE users SET rating="{rating}" WHERE username="{receipient[1]}"')
+        c.execute(f'UPDATE users SET last_donation="{last_donation}" WHERE username="{current_user[1]}"')
         conn.commit()
         conn.close()
         return redirect('/profile')
