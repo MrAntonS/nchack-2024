@@ -12,16 +12,16 @@ app.config['SESSION_TYPE'] = 'filesystem'
 def create_database():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT, amount_of_blood_left REAL, last_donation TEXT, recipient TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT, amount_of_blood_left REAL, last_donation TEXT, recipient TEXT, ratings INTEGER)')
     conn.commit()
     conn.close()
 
 def create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions):
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations, recipient) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+    insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations, recipient, ratings) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
     current_date = datetime.date.today().strftime("%Y-%m-%d")
-    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date, '', '', '')
+    data = (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, 500, current_date, '', '', '', 0)
     c.execute(insert_req, data)
     conn.commit()
     conn.close()
@@ -84,7 +84,7 @@ def profile():
     if request.method == 'POST':
         recipient = request.get_json()['recipient']
         recipient_data = get_data_entry(recipient)
-        if current_user[1] in recipient_data[-5]:
+        if current_user[1] in recipient_data[-6]:
             conn = sqlite3.connect('database.db')
             c = conn.cursor()
             c.execute(f'UPDATE users SET recipient="{recipient}" WHERE username="{current_user[1]}"')
@@ -95,11 +95,10 @@ def profile():
     users = get_all_entries()
     others_requests = list(filter(lambda x: current_user[1] in x[13], users))
     your_requests = list(filter(lambda x: x[1] in current_user[13], users))
-    print(your_requests, current_user[13])
     your_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], your_requests))
     others_requests = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], others_requests))
-    accepted_user = list(filter(lambda x: x[1] in current_user[-1], users))
-    being_assisted = list(filter(lambda x: current_user[1] in x[-1], users)) != []
+    accepted_user = list(filter(lambda x: x[1] in current_user[-2], users))
+    being_assisted = list(filter(lambda x: current_user[1] in x[-2], users)) != []
     if accepted_user != []:
         accepted_user = accepted_user[0]
         accepted_user =  list(accepted_user) + [round(User.getDistanceKm(lat1=accepted_user[8], lng1=accepted_user[9], lat2=current_user[8], lng2=current_user[9]))]
@@ -165,7 +164,8 @@ def disconnect():
         current_users = current_user[13].replace(receipient[1] + ",", "")
         receipients = receipient[14].replace(current_user[1] + ",", "")
         blood_donated = current_user[-3] - int(request.form['bloodAmount'])
-        rating = current_user[10] + float(request.form['rating'])
+        rating = receipient[10] + float(request.form['rating'])
+        print(rating, "rating")
         
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
@@ -180,7 +180,8 @@ def disconnect():
     
     elif request.method == 'GET':
         current_user = get_data_entry(session['username'])
-        receipient = get_data_entry(current_user[-1])
+        receipient = get_data_entry(current_user[-2])
+        print(receipient)
         if receipient != None:
             current_users = current_user[13].replace(receipient[1] + ",", "")
             receipients = receipient[14].replace(current_user[1] + ",", "")
@@ -221,7 +222,7 @@ def home():
         users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
     if request.method == 'POST':
         users = list(map(lambda x: list(x) + [round(User.getDistanceKm(lat1=x[8], lng1=x[9], lat2=current_user[8], lng2=current_user[9]))], users))
-        users = list(filter(lambda x: x[-1] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[10] >= int(request.form["bloodAmount"]), users))
+        users = list(filter(lambda x: x[-1] <= int(request.form["distanceFromUser"]) and x[4] == request.form["bloodTypes"] and x[15] >= int(request.form["bloodAmount"]), users))
     users = list(filter(lambda x: x[1] not in current_user[13], users))
     users = list(filter(lambda x: x[11] == 1, users))
     users = sorted(users, key=lambda x: x[-1])

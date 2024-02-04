@@ -354,7 +354,7 @@
                         <div class="distance-away">{{user[-1]}} Miles</div>
     
                         <!-- connect button -->
-                        {%if current_user[-1] != '' or being_assisted%}
+                        {%if current_user[-2] != '' or being_assisted%}
                         <button onclick="sendConnectRequest(event, '/profile', '{{ user[1] }}')" disabled>Accept</button>
                         {% else %}
                         <button onclick="sendConnectRequest(event, '/profile', '{{ user[1] }}')">Accept</button>
@@ -376,7 +376,11 @@
                 <div class="small-column-1">
                     <div class="column-1-top">
                         <div class="circle">{{accepted_user[1]}}</div>
-                        <div class="column-1-small-rectangle">{{accepted_user[10]}}/5</div>
+                        {% if accepted_user[-2] != 0 %}
+                        <div class="column-1-small-rectangle">{{accepted_user[10]/accepted_user[-2]}}/5</div>
+                        {% else %}
+                        <div class="column-1-small-rectangle">0</div>
+                        {% endif %}
                     </div>
                     <div class="column-1-bottom">
                         <div class="column-1-big-rectangle">Contact Info<br>
