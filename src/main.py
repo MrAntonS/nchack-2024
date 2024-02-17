@@ -10,6 +10,30 @@ app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 def create_database():
+    """
+    Creates a SQLite database if it doesn't exist and defines the 'users' table.
+
+    The 'users' table has the following columns:
+    - id: INTEGER (Primary Key)
+    - username: TEXT
+    - password: TEXT
+    - email: TEXT
+    - blood_type: INTEGER
+    - age: INTEGER
+    - weight: INTEGER
+    - location: TEXT
+    - latitude: REAL
+    - longitude: REAL
+    - rating: REAL
+    - is_donor: BIT
+    - medical_conditions: TEXT
+    - requests: TEXT
+    - donations: TEXT
+    - amount_of_blood_left: REAL
+    - last_donation: TEXT
+    - recipient: TEXT
+    - ratings: INTEGER
+    """
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
     c.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, email TEXT, blood_type INTEGER, age INTEGER, weight INTEGER, location TEXT, lattitude REAL, longitude REAL, rating REAL, is_donor BIT, medical_conditions TEXT, requests TEXT, donations TEXT, amount_of_blood_left REAL, last_donation TEXT, recipient TEXT, ratings INTEGER)')
@@ -17,6 +41,26 @@ def create_database():
     conn.close()
 
 def create_data_entry(username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions):
+    """
+    Creates a new data entry in the database for a user.
+
+    Args:
+        username (str): The username of the user.
+        password (str): The password of the user.
+        email (str): The email address of the user.
+        blood_type (str): The blood type of the user.
+        age (int): The age of the user.
+        weight (float): The weight of the user.
+        location (str): The location of the user.
+        lattitude (float): The latitude of the user's location.
+        longitude (float): The longitude of the user's location.
+        rating (float): The rating of the user.
+        is_donor (bool): Indicates whether the user is a donor or not.
+        medical_conditions (str): The medical conditions of the user.
+
+    Returns:
+        None
+    """
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
     insert_req = f'INSERT INTO users (username, password, email, blood_type, age, weight, location, lattitude, longitude, rating, is_donor, medical_conditions, amount_of_blood_left, last_donation, requests, donations, recipient, ratings) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
@@ -26,7 +70,18 @@ def create_data_entry(username, password, email, blood_type, age, weight, locati
     conn.commit()
     conn.close()
 
+import sqlite3
+
 def check_username(username):
+    """
+    Check if a username already exists in the database.
+
+    Args:
+        username (str): The username to check.
+
+    Returns:
+        bool: True if the username is available, False otherwise.
+    """
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
     c.execute(f'SELECT * FROM users WHERE username="{username}"')
